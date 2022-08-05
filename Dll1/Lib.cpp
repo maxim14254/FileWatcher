@@ -1,10 +1,15 @@
 #include "pch.h"
 #include "lib.h"
+#include <iostream>
+#include <windows.h>
+#include <ShellApi.h>
+
 
 bool Lib::IsElevated() //проверкa уровня привилегий
 {
 	BOOL fRet = FALSE;
 	HANDLE hToken = NULL;
+
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
 		TOKEN_ELEVATION Elevation;
 		DWORD cbSize = sizeof(TOKEN_ELEVATION);
@@ -16,5 +21,10 @@ bool Lib::IsElevated() //проверкa уровня привилегий
 		CloseHandle(hToken);
 	}
 	return fRet;
-	
+
+};
+
+void Lib::RunWithAdmin(char* path)
+{
+	ShellExecuteA(NULL, "runas", path, NULL, NULL, SW_SHOW);	
 };

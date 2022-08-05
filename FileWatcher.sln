@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher", "FileWatcher\FileWatcher.csproj", "{4A32604B-29AF-4920-A08B-CA7F71F14BF9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD785F7D-7A6C-4F95-9AFE-BE5D73BF82BD} = {CD785F7D-7A6C-4F95-9AFE-BE5D73BF82BD}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dll1", "Dll1\Dll1.vcxproj", "{CD785F7D-7A6C-4F95-9AFE-BE5D73BF82BD}"
 EndProject
