@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,12 +31,20 @@ namespace FileWatcher
         {
             if (this.instancesAllowed.WaitOne(1000))
             {
-                //new MainWindow().Show();
                 this.IsRunning = true;
                 return;
             }
-
-            this.Shutdown();
+            else
+            {
+                RunSetting runSetting = new RunSetting(string.Empty, null, false);
+                runSetting.Deserializable();
+                Process oldProcess = Process.GetProcessById((int)runSetting.ProcessId);
+               
+                if (runSetting.UAC)
+                    oldProcess.Kill();
+                else
+                    this.Shutdown();
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ namespace FileWatcher
     public partial class MainWindow : Window
     {
         IntPtr DLL1;
+        RunSetting runSetting;
 
         [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Create();
@@ -31,37 +32,66 @@ namespace FileWatcher
         [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool IsElevated(IntPtr lip);
 
-        [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         public static extern void RunWithAdmin(IntPtr lip, char[] path);
+
+        [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.BStr)]
+        public static extern string GetCatalogs(IntPtr lip, char[] path);
+
+        [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        public static extern bool IsChangeCatalog(IntPtr lip, char[] path);
+
+        [DllImport("DLL1.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        public static extern void Token(IntPtr lip);
 
         public MainWindow()
         {
             InitializeComponent();
-
-            DLL1 = Create();
-
-
-            bool f = IsElevated(DLL1);
-            this.Title = f.ToString();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            runSetting.UAC = true;
+            runSetting.Serializable();
+
             RunWithAdmin(DLL1, Assembly.GetExecutingAssembly().Location.ToCharArray());
 
-            //Process info = Process.GetCurrentProcess();
-            //info.FileName = Assembly.GetExecutingAssembly().Location;
-            //info.UseShellExecute = true;
-            //info.Verb = "runas"; // Provides Run as Administrator
-            //info.Arguments = "-uca";
-            //info.CreateNoWindow = false;
-
-            //if (Process.Start(info) != null)
-            //{
-            //    // The user accepted the UAC prompt.
-            //}
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DLL1 = Create();
+
+            bool f = IsElevated(DLL1);
+            this.Title = f.ToString();
+
+            Process info = Process.GetCurrentProcess();
+            runSetting = new RunSetting(string.Empty, info.Id, false);
+            runSetting.Serializable();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Token(DLL1);
+            string ssss = @"E:\CCleaner\*";
+            string s = GetCatalogs(DLL1, ssss.ToCharArray());
+
+            List<string> catalogs = new List<string>();
+            catalogs.AddRange(s.Split('|'));
+            catalogs.Remove(catalogs.Last());
+            if (catalogs[0] == "." && catalogs[1] == "..")
+            {
+                catalogs.Remove(catalogs[0]);
+                catalogs[0] = "...";
+            }
+        }
+
+        private async void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            string ssss = @"E:\Новая папка";
+            await Task.Run<bool>(() => IsChangeCatalog(DLL1, ssss.ToCharArray()));
+        }
+        
     }
 }
