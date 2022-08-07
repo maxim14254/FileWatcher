@@ -5,11 +5,117 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileWatcher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="FileWather" Height="594" Width="1028" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" MinHeight="480" MinWidth="840">
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="87,38,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="661,38,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="379,163,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="62"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="WhiteSmoke">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Margin="5" Width="Auto" Header="Путь">
+                <Label x:Name="label" />
+            </GroupBox>
+
+            <Button Grid.Column="1" HorizontalAlignment="Stretch" Height="Auto" Margin="5,15,5,5" VerticalAlignment="Stretch" Click="Button_Click">
+                <TextBlock Text="Выбрать каталог" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Center"/>
+            </Button>
+
+            <Button Grid.Column="2" x:Name="button" HorizontalAlignment="Right" Height="Auto" Margin="0,15,5,5"  VerticalAlignment="Stretch" Click="Button_Click_1" Width="100">
+                <TextBlock Text="Restart with Admin" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+            </Button>
+
+        </Grid>
+
+        <DataGrid  Grid.Row="1" ItemsSource="{Binding Files}" CanUserAddRows="False" GridLinesVisibility="None" CanUserResizeRows="False" AutoGenerateColumns="False" SelectedItem="{Binding File}" Background="Transparent">
+            <DataGrid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="TextAlignment" Value="Left"/>
+                    <Setter Property="IsReadOnly" Value="True"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Cursor" Value="Arrow"/>
+                    <Setter Property="SelectionBrush" Value="Transparent"/>
+                    <!--<Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Red" />
+                        </Trigger>
+                    </Style.Triggers>-->
+                </Style>
+
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="LightBlue" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="LightBlue" />
+                        </Trigger>
+                    </Style.Triggers>
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Image" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <TextBox Text="{Binding Login}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Name" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Path" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Path}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Size" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Size}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Date" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Date}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--<Button Content="Button" HorizontalAlignment="Left" Margin="478,389,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="383,389,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>-->
 
     </Grid>
 </Window>

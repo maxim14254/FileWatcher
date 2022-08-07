@@ -25,6 +25,8 @@ bool Lib::IsElevated() //проверкa уровня привилегий
 
 };
 
+bool  MYSUPERTOKEN = false;
+
 void Lib::RunWithAdmin(wchar_t* path)
 {
 	SHELLEXECUTEINFO ShExecInfo;
@@ -37,9 +39,10 @@ void Lib::RunWithAdmin(wchar_t* path)
 	ShExecInfo.lpDirectory = NULL;
 	ShExecInfo.nShow = SW_SHOW;
 	ShExecInfo.hInstApp = NULL;
-
+	MYSUPERTOKEN = true;
 	if (TRUE == ShellExecuteEx(&ShExecInfo))
 	{
+		//MYSUPERTOKEN = true;
 		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
 		CloseHandle(GetCurrentProcess());
 		CloseHandle(GetCurrentThread());
@@ -69,7 +72,6 @@ BSTR Lib::GetCatalogs(wchar_t* path)
 	return SysAllocString(catalogs.c_str());
 };
 
-bool MYSUPERTOKEN = false;
 void Lib::Token()
 {
 	MYSUPERTOKEN = true;
