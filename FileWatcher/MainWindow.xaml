@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileWatcher"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="FileWather" Height="594" Width="1028" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" MinHeight="480" MinWidth="840">
+        Title="FileWather" Height="600" Width="1040" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" MinHeight="600" MinWidth="1040" Icon="/1.ico">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="62"/>
@@ -45,11 +47,6 @@
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                     <Setter Property="Cursor" Value="Arrow"/>
                     <Setter Property="SelectionBrush" Value="Transparent"/>
-                    <!--<Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="Red" />
-                        </Trigger>
-                    </Style.Triggers>-->
                 </Style>
 
                 <Style TargetType="DataGridCell">
@@ -72,13 +69,13 @@
             </DataGrid.Resources>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Image" Width="70">
+                <!--<DataGridTemplateColumn Header="Image" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate >
-                            <TextBox Text="{Binding Login}"/>
+                            <ImageSource  Source="{Binding ImgSource}" Height="40"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
 
                 <DataGridTemplateColumn Header="Name" Width="200">
                     <DataGridTemplateColumn.CellTemplate>
@@ -114,8 +111,17 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!--<Button Content="Button" HorizontalAlignment="Left" Margin="478,389,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
-            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="383,389,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>-->
-
+        <tb:TaskbarIcon x:Name="myNotifyIcon"
+                    Visibility="Collapsed"
+                    IconSource="/1.ico"
+                    ToolTipText="FileWatcher"
+                    MenuActivation="LeftOrRightClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show" Click="MenuItem_Click"/>
+                    <MenuItem Header="Exit" Click="MenuItem_Click_1"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
     </Grid>
 </Window>

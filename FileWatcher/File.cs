@@ -1,19 +1,25 @@
-﻿using System;
+﻿using FileWatcher.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace FileWatcher
 {
     public class File : INotifyPropertyChanged
     {
-        string catalog;
+        BitmapSource imgSource;
         string name;
         string path;
         string size;
@@ -25,21 +31,30 @@ namespace FileWatcher
             this.path = path;
             this.size = size;
             this.date = date;
+            Bitmap icon;
+            //try
+            //{
+            //    icon = System.Drawing.Icon.ExtractAssociatedIcon(path).ToBitmap();
+            //}
+            //catch
+            //{
+
+            //    icon = Resources._2.ToBitmap();
+            //}
+            //imgSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(icon.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }
 
-        public string Catalog
+        public BitmapSource ImgSource
         {
             get
             {
-                return catalog;
+                return imgSource;
             }
             set
             {
-                catalog = value;
-                OnPropertyChanged(value);
+                imgSource = value;
             }
         }
-
 
         public string Name
         {
@@ -50,7 +65,6 @@ namespace FileWatcher
             set
             {
                 name = value;
-                OnPropertyChanged(value);
             }
         }
 
@@ -63,8 +77,8 @@ namespace FileWatcher
             set
             {
                 path = value;
-                OnPropertyChanged(value);
             }
+
         }
 
         public string Size
@@ -76,7 +90,6 @@ namespace FileWatcher
             set
             {
                 size = value;
-                OnPropertyChanged(value);
             }
         }
 
@@ -89,7 +102,6 @@ namespace FileWatcher
             set
             {
                 date = value;
-                OnPropertyChanged(value);
             }
         }
 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace FileWatcher
 {
@@ -74,6 +76,16 @@ namespace FileWatcher
 
         private void GetCatalogs(string str)
         {
+            try
+            {
+                DirectorySecurity sec = Directory.GetAccessControl(str, AccessControlSections.Access);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string path = $"{str}\\*";
             string s = GetCatalogs(DLL1, path.ToCharArray());
 
@@ -102,7 +114,7 @@ namespace FileWatcher
                 else
                     file = new FileInfo(String.Format("{0}\\{1}", label.Content.ToString(), rez[i]));
 
-                if (file.Attributes.ToString().Split(',').Any(w => w.Equals(" System")))
+                if (file.Attributes.ToString().Split(',').Any(w => w.Equals(" Hidden")))
                     continue;
 
                 if (file.Attributes == FileAttributes.Archive)
@@ -116,6 +128,9 @@ namespace FileWatcher
             }
 
             Refresh(str);
+
+            GC.Collect();
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -129,7 +144,7 @@ namespace FileWatcher
             runSetting = new RunSetting(null, null, false);
             runSetting.Deserializable();
 
-            if (runSetting.UAC)
+            if (runSetting.UAC && runSetting.Path != null) 
             {
                 label.Content = runSetting.Path;
                 GetCatalogs(label.Content.ToString());
@@ -170,6 +185,30 @@ namespace FileWatcher
             {
                 System.Diagnostics.Process.Start(item.Path);
             }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Visible;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (block)
+            {
+                e.Cancel = true;
+                myNotifyIcon.Visibility = Visibility.Visible;
+                this.Visibility = Visibility.Collapsed;
+                block = false;
+            }
+            base.OnClosing(e);
+        }
+        
+        bool block = true;
+       
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -34,10 +34,15 @@ namespace FileWatcher
 
             using (FileStream fs = new FileStream("RunSetting.dat", FileMode.OpenOrCreate))
             {
-                var runSetting = (RunSetting)formatter.Deserialize(fs);
-                Path = runSetting.Path;
-                ProcessId = runSetting.ProcessId;
-                UAC = runSetting.UAC;
+                try
+                {
+                    var runSetting = (RunSetting)formatter.Deserialize(fs);
+                    Path = runSetting.Path;
+                    ProcessId = runSetting.ProcessId;
+                    UAC = runSetting.UAC;
+                }
+                catch (System.Runtime.Serialization.SerializationException)
+                { }
             }
         }
     }
