@@ -59,9 +59,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dll1">
-      <HintPath>..\Debug\Dll1.dll</HintPath>
-    </Reference>
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net45\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
     </Reference>
@@ -133,6 +130,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dll1\Dll1.vcxproj">
+      <Project>{cd785f7d-7a6c-4f95-9afe-be5d73bf82bd}</Project>
+      <Name>Dll1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

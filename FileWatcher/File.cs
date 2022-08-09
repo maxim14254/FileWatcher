@@ -19,7 +19,7 @@ namespace FileWatcher
 {
     public class File : INotifyPropertyChanged
     {
-        BitmapSource imgSource;
+        //BitmapSource imgSource;
         string name;
         string path;
         string size;
@@ -31,7 +31,7 @@ namespace FileWatcher
             this.path = path;
             this.size = size;
             this.date = date;
-            Bitmap icon;
+            //Bitmap icon;
             //try
             //{
             //    icon = System.Drawing.Icon.ExtractAssociatedIcon(path).ToBitmap();
@@ -44,17 +44,17 @@ namespace FileWatcher
             //imgSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(icon.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }
 
-        public BitmapSource ImgSource
-        {
-            get
-            {
-                return imgSource;
-            }
-            set
-            {
-                imgSource = value;
-            }
-        }
+        //public BitmapSource ImgSource
+        //{
+        //    get
+        //    {
+        //        return imgSource;
+        //    }
+        //    set
+        //    {
+        //        imgSource = value;
+        //    }
+        //}
 
         public string Name
         {
