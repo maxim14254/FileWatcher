@@ -65,7 +65,7 @@ namespace FileWatcher
         {
             FolderBrowserDialog DirDialog = new FolderBrowserDialog();
             DirDialog.Description = "Выбор директории";
-            DirDialog.SelectedPath = @"C:\";
+            //DirDialog.SelectedPath = @"C:\";
 
             if (DirDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
