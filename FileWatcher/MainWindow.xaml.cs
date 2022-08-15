@@ -80,7 +80,7 @@ namespace FileWatcher
             {
                 DirectorySecurity sec = Directory.GetAccessControl(str, AccessControlSections.Access);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -144,7 +144,7 @@ namespace FileWatcher
             runSetting = new RunSetting(null, null, false);
             runSetting.Deserializable();
 
-            if (runSetting.UAC && runSetting.Path != null) 
+            if (runSetting.UAC && runSetting.Path != null)
             {
                 label.Content = runSetting.Path;
                 GetCatalogs(label.Content.ToString());
@@ -166,7 +166,7 @@ namespace FileWatcher
 
         private async void Refresh(string path)
         {
-            if(await Task.Run<bool>(() => IsChangeCatalog(DLL1, path.ToCharArray())))
+            if (await Task.Run<bool>(() => IsChangeCatalog(DLL1, path.ToCharArray())))
             {
                 GetCatalogs(path);
             }
@@ -175,7 +175,7 @@ namespace FileWatcher
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             File item = (File)(sender as System.Windows.Controls.DataGridRow).Item;
-            
+
             if (item.Size == "Папка")
             {
                 label.Content = item.Path;
@@ -190,6 +190,7 @@ namespace FileWatcher
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.Visibility = Visibility.Visible;
+            //myNotifyIcon.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -199,15 +200,16 @@ namespace FileWatcher
                 e.Cancel = true;
                 myNotifyIcon.Visibility = Visibility.Visible;
                 this.Visibility = Visibility.Collapsed;
-                block = false;
             }
-            base.OnClosing(e);
+            else
+                e.Cancel = false;
         }
-        
+
         bool block = true;
-       
+
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
+            block = false;
             this.Close();
         }
     }
