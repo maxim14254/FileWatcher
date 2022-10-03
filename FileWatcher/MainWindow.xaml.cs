@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -32,6 +33,7 @@ namespace FileWatcher
     {
         IntPtr DLL1;
         RunSetting runSetting;
+        Dictionary<string, BitmapSource> icons = new Dictionary<string, BitmapSource>();
 
         public ObservableCollection<File> Files { get; set; }
         public File File { get; set; }
@@ -98,21 +100,22 @@ namespace FileWatcher
                 rez.Remove(rez[0]);
                 rez[0] = "...";
             }
+            string content = label.Content.ToString();
 
             FileInfo file;
             string size;
             string date;
             for (int i = 0; i < rez.Count; ++i)
             {
-                path = String.Format("{0}\\{1}", label.Content.ToString(), rez[i]);
+                path = String.Format("{0}\\{1}", content, rez[i]);
                 if (rez[i] == "...")
                 {
                     var arr = path.Split('\\');
                     path = String.Join("\\", arr.Take(arr.Length - 2));
-                    file = new FileInfo(label.Content.ToString());
+                    file = new FileInfo(content);
                 }
                 else
-                    file = new FileInfo(String.Format("{0}\\{1}", label.Content.ToString(), rez[i]));
+                    file = new FileInfo(path);
 
                 if (file.Attributes.ToString().Split(',').Any(w => w.Equals(" Hidden")))
                     continue;
@@ -122,15 +125,12 @@ namespace FileWatcher
                 else
                     size = "Папка";
 
-                date = $"{file.LastWriteTime.ToShortDateString()} {file.LastWriteTime.ToShortTimeString()}";
+                date = String.Format("{0} {1}", file.LastWriteTime.ToShortDateString(), file.LastWriteTime.ToShortTimeString());
 
-                Files.Add(new File(rez[i], path, size, date));
+                Files.Add(new File(rez[i], ref path, ref size, ref date, icons, file.Extension));
             }
-
             Refresh(str);
-
             GC.Collect();
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
