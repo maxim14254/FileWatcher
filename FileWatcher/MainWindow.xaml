@@ -69,13 +69,13 @@
             </DataGrid.Resources>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Image" Width="50">
+                <!--<DataGridTemplateColumn Header="Image" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding ImgSource}" Height="40"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
 
                 <DataGridTemplateColumn Header="Name" Width="200">
                     <DataGridTemplateColumn.CellTemplate>

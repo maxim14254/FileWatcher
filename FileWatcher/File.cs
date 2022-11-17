@@ -33,26 +33,26 @@ namespace FileWatcher
             this.path = path;
             this.size = size;
             this.date = date;
-            Bitmap icon;
+            //Bitmap icon;
 
-            try
-            {
-                icon = System.Drawing.Icon.ExtractAssociatedIcon(path).ToBitmap();
-            }
-            catch
-            {
-                icon = Resources._2.ToBitmap();
-                nameExtension = "path";
-            }
+            //try
+            //{
+            //    icon = System.Drawing.Icon.ExtractAssociatedIcon(path).ToBitmap();
+            //}
+            //catch
+            //{
+            //    icon = Resources._2.ToBitmap();
+            //    nameExtension = "path";
+            //}
 
-            if (!icons.ContainsKey(nameExtension.ToLower()))
-            {
-                var img = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(icon.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                icons.Add(nameExtension.ToLower(), img);
-            }
+            //if (!icons.ContainsKey(nameExtension.ToLower()))
+            //{
+            //    var img = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(icon.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            //    icons.Add(nameExtension.ToLower(), img);
+            //}
             
-            imgSource = icons[nameExtension.ToLower()];
-            icon.Dispose();
+            //imgSource = icons[nameExtension.ToLower()];
+            //icon.Dispose();
         }
 
         public BitmapSource ImgSource
